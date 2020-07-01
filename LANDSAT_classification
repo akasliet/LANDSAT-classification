@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+
+img = cv2.imread('..\..\latex\images\LANDSAT1.tiff',0)
+
+# global thresholding
+img1,thresh1 = cv2.threshold(img,240,255,cv2.THRESH_BINARY)
+img1 = cv2.hist_equalized(img1)
+img2,thresh2 = cv2.threshold(img1,50,255,cv2.THRESH_OTSU)
+
+nr = img2.shape[0]
+nc = img2.shape[1]
+# Averaging
+img3 = cv2.conv2(img2,[[1,1,1],[1,1,1],[1,1,1]]
+# Gaussian filtering
+img3 = cv2.GaussianBlur(img3,(7,7),0)
+img4,thresh3 = cv2.threshold(img3,50,255,cv2.THRESH_OTSU)
+
+# plot all the images and their histograms
+img_mul = [img1, 0, thresh1, img1, 0, thresh2,img3, 0, thresh3]
+
+
+num_img = 3;
+for ind in range(0,num_img):
+    plt.subplot(num_img,num_img,ind*num_img+1),plt.imshow(images[ind*num_img])
+    plt.subplot(3,3,ind*num_img+2),plt.hist(images[i*3].ravel())
+    plt.subplot(num_img,num_img,ind*num_img+num_img),plt.imshow(images[ind*num_img+2])
+plt.show()
+cv2. save(img_mul[0],"img1.tiff")
+cv2. save(img_mul[1],"img2.tiff")
+cv2. save(img_mul[2],"img3.tiff")
